@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using MvcShopping.Models;
 
 namespace MvcShopping.Controllers
@@ -16,6 +14,7 @@ namespace MvcShopping.Controllers
         }
 
         // 寫入會員訊息
+        [HttpPost]
         public ActionResult Register(Member member)
         {
             return View();
@@ -30,11 +29,13 @@ namespace MvcShopping.Controllers
         }
 
         // 運行會員登錄
+        [HttpPost]
         public ActionResult Login(string email, string passwaord, string returnUrl)
         {
             if (ValidateUser(email, passwaord))
             {
-                FormdAuthentication.SetauthCookie(email, false);
+                // 將驗證的內容記錄到 Cookie
+                FormsAuthentication.SetAuthCookie(email, false);
 
                 if (String.IsNullOrEmpty(returnUrl))
                 {
@@ -55,19 +56,17 @@ namespace MvcShopping.Controllers
             throw new NotImplementedException();
         }
 
-        // 運行會員Logout
+        // 運行會員 Logout
         public ActionResult Logout()
         {
-            // 清除驗證的cookies
-            FormAuthentication.SighOut();
+            // 清除驗證的 cookies
+            FormsAuthentication.SignOut();
 
-            // 清除曾經寫入過的Session信息
+            // 清除曾經寫入過的 Session 信息
             Session.Clear();
 
             return RedirectToAction("Index", "Home");
-
         }
-
 
     }
 }

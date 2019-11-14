@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using MvcShopping.Models;
 
 namespace MvcShopping.Controllers
 {
@@ -15,7 +12,8 @@ namespace MvcShopping.Controllers
             return View();
         }
 
-        [HpptPost]
+        // 將訂單訊息與購物車訊息儲存至資料庫
+        [HttpPost]
         public ActionResult Complete(FormCollection form)
         {
             // TODO: 將訂單訊息與購物車訊息寫入資料庫

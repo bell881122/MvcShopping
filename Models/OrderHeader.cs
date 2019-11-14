@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MvcShopping.Models
 {
-
     [DisplayName("訂單主文件")]
     [DisplayColumn("DisplayName")]
     public class OrderHeader
@@ -22,14 +22,14 @@ namespace MvcShopping.Models
         [Description("訂購人不一定是收件人")]
         public string ContactName { get; set; }
 
-        [DisplayName("連絡電話")]
-        [Required(ErrorMessage = "請輸入您的電話")]
+        [DisplayName("聯絡電話")]
+        [Required(ErrorMessage = "請輸入您的聯絡電話")]
         [MaxLength(25, ErrorMessage = "電話號碼長度不可超過25字")]
         [DataType(DataType.PhoneNumber)]
         public string ContactPhoneNo { get; set; }
 
-        [DisplayName("寄件地址")]
-        [Required(ErrorMessage = "請輸入寄件地址")]
+        [DisplayName("寄送地址")]
+        [Required(ErrorMessage = "請輸入商品寄送地址")]
         public string ContactAddress { get; set; }
 
         [DisplayName("訂單金額")]
@@ -45,6 +45,7 @@ namespace MvcShopping.Models
         [DisplayName("訂購時間")]
         public DateTime BuyOn { get; set; }
 
+        [NotMapped]
         public string DisplayName
         {
             get { return this.Member.Name + "於" + this.BuyOn + "訂購的商品"; }
