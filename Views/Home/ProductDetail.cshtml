@@ -1,0 +1,61 @@
+﻿@model MvcShopping.Models.Product
+
+@{
+    var ajaxOption = new AjaxOptions()
+    {
+        OnSuccess = "AddToCartSuccess",
+        OnFailure = "AddToCartFailure",
+    };
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function AddToCartsSuccess() {
+            alert('成功加入購物車');
+        }
+        function AddToCartsFailure(xhr) {
+            alert('加入購物車失敗（HTTP狀態碼：' + xhr.status + '）');
+        }
+    </script>
+}
+
+<h2>您正在瀏覽【"@Model.Name"】商品</h2>
+
+<fieldset>
+    <legend>@Html.DisplayNameFor(m => m)</legend>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Color)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Color)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Price)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Price)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.PublishOn)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PublishOn)
+    </div>
+
+</fieldset>
+
+
+<p>
+    @Ajax.ActionLink("加入至購物車", "AddToCart", "Cart", ajaxOption)
+</p>

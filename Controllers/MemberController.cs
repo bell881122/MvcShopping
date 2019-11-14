@@ -15,7 +15,7 @@ namespace MvcShopping.Controllers
 
         // 寫入會員訊息
         [HttpPost]
-        public ActionResult Register(Member member)
+        public ActionResult Register([Bind(Exclude = "RegisterOn, AuthCode")] Member member)
         {
             return View();
         }
