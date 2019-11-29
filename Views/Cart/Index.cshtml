@@ -1,0 +1,101 @@
+﻿@model IEnumerable<MvcShopping.Models.Cart>
+
+@{
+    var ajaxOption = new AjaxOptions()
+    {
+        OnSuccess = "RemoveCartSuccess",
+        OnFailure = "RemoveCartFailure",
+        Confirm = "您確定要移除這項商品嗎？",
+        HttpMethod = "Post"
+    };
+}
+
+@section Script{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function RemoveCartSuccess() {
+            alert("移除購物車商品成功");
+            location.reload();
+        }
+        function RemoveCartFailure() {
+            alert("移除購物車商品失敗 (HTTP 狀態代碼: " + xhr.status + ")");
+        }
+    </script>
+}
+
+<h2>購物車列表</h2>
+
+@using (Html.BeginForm("UpdateAmount", "Cart"))
+{
+    <table>
+        <tr>
+            <th>產品名稱</th>
+            <th>單價</th>
+            <th>數量</th>
+            <th>小計</th>
+            <th></th>
+        </tr>
+        @{ int subTotal = 0;}
+        @{ var model = Model.ToList();}
+        @for (int i = 0; i < model.Count; i++)
+        {
+            //計算購買商品總價
+            subTotal += model[i].Product.Price * model[i].Amount;
+
+            // 限制商品數量只能選 1~10
+            var ddlAmountList = new SelectList(Enumerable.Range(1, 10), model[i].Amount);
+
+            // 購買商品 Id 不顯示
+            @Html.HiddenFor(modelItem => model[i].Product.Id)
+
+            <tr>
+                <td>@Html.DisplayFor(modelItem => model[i].Product.Name)</td>
+                <td>NT$ @(model[i].Product.Price)</td>
+                <td>@Html.DropDownListFor(modelItem => model[i].Amount, ddlAmountList)</td>
+                <td>NT$ @(model[i].Product.Price * model[i].Amount)</td>
+                <td>@Ajax.ActionLink("刪除", "Remove", new  { ProductId = model[i].Product.Id }, ajaxOption)</td>
+            </tr>
+        }
+
+        <tr>
+            <th></th>
+            <th></th>
+            <th>總價</th>
+            <th id="subtotal">NT$ @subTotal</th>
+            <th></th>
+        </tr>
+    </table>
+    <p>
+        <input type="submit" value="更新數量" />
+        <input type="button" value="完成訂單" onclick="location.href = '@Url.Action("Complete","Order")';" />
+    </p>
+}
+
+
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+    }
+
+</table>*@
