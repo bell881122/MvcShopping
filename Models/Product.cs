@@ -13,7 +13,7 @@ namespace MvcShopping.Models
 
         [DisplayName("商品類別")]
         [Required]
-        public ProductCategory ProductCategory { get; set; }
+        public virtual ProductCategory ProductCategory { get; set; }
 
         [DisplayName("商品名稱")]
         [Required(ErrorMessage = "請輸入商品名稱")]

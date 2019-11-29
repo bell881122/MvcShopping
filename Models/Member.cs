@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -43,6 +44,9 @@ namespace MvcShopping.Models
         [DisplayName("會員啟用認證碼")]
         [MaxLength(36)]
         [Description("當AuthCode等於null代表此會員已通過Email有效性驗證")]
-        public string AuthCode{ get; set; }
+        public string AuthCode { get; set; }
+
+        public virtual ICollection<OrderHeader> Orders { get; set; }
+
     }
 }

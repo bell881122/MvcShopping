@@ -12,7 +12,7 @@ namespace MvcShopping.Models
 
         [DisplayName("訂單主文件")]
         [Required]
-        public OrderHeader OrderHeader { get; set; }
+        public virtual OrderHeader OrderHeader { get; set; }
 
         [DisplayName("訂購商品")]
         [Required]
